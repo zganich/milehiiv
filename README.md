@@ -14,6 +14,10 @@ A gig driver mileage reconciliation platform that simplifies mileage tracking an
 
 **See `SETUP-COMPLETE.md` for full setup instructions.**
 
+### **🌐 Custom Domain**
+- **Production URL**: https://milehiiv.com
+- **Domain Setup**: See `DOMAIN-SETUP-GUIDE.md` for DNS configuration
+
 ## Features
 
 - **PDF Processing**: Automatically extract mileage data from uploaded PDF documents
