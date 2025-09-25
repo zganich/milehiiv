@@ -3,20 +3,18 @@ import {
   successResponse, 
   errorResponse, 
   unauthorizedResponse,
-  notFoundResponse,
-  validationErrorResponse,
-  validateRequiredFields
+  notFoundResponse
 } from '@/lib/api-utils'
 import { getUserFromRequest } from '@/lib/api-utils'
 import { supabase } from '@/lib/supabase'
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // Get user from token
-    const user = getUserFromRequest(request)
+    const user = await getUserFromRequest(request)
     if (!user) {
       return unauthorizedResponse()
     }
@@ -24,7 +22,7 @@ export async function GET(
     const { data: trip, error } = await supabase
       .from('trips')
       .select('*')
-      .eq('id', params.id)
+      .eq('id', (await params).id)
       .eq('user_id', user.id)
       .single()
     
@@ -38,7 +36,7 @@ export async function GET(
     
     return successResponse(trip)
     
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Get trip error:', error)
     return errorResponse('Failed to fetch trip', 500)
   }
@@ -46,11 +44,11 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // Get user from token
-    const user = getUserFromRequest(request)
+    const user = await getUserFromRequest(request)
     if (!user) {
       return unauthorizedResponse()
     }
@@ -80,7 +78,7 @@ export async function PUT(
         ...(location !== undefined && { location }),
         ...(notes !== undefined && { notes })
       })
-      .eq('id', params.id)
+      .eq('id', (await params).id)
       .eq('user_id', user.id)
       .select()
       .single()
@@ -95,7 +93,7 @@ export async function PUT(
     
     return successResponse(trip, 'Trip updated successfully')
     
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Update trip error:', error)
     return errorResponse('Failed to update trip', 500)
   }
@@ -103,11 +101,11 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // Get user from token
-    const user = getUserFromRequest(request)
+    const user = await getUserFromRequest(request)
     if (!user) {
       return unauthorizedResponse()
     }
@@ -116,7 +114,7 @@ export async function DELETE(
     const { error } = await supabase
       .from('trips')
       .delete()
-      .eq('id', params.id)
+      .eq('id', (await params).id)
       .eq('user_id', user.id)
     
     if (error) {
@@ -126,7 +124,7 @@ export async function DELETE(
     
     return successResponse(null, 'Trip deleted successfully')
     
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Delete trip error:', error)
     return errorResponse('Failed to delete trip', 500)
   }

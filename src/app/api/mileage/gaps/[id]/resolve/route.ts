@@ -10,11 +10,11 @@ import { supabase } from '@/lib/supabase'
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // Get user from token
-    const user = getUserFromRequest(request)
+    const user = await getUserFromRequest(request)
     if (!user) {
       return unauthorizedResponse()
     }
@@ -35,7 +35,7 @@ export async function PUT(
         ...(actual_miles !== undefined && { actual_miles }),
         ...(notes && { notes })
       })
-      .eq('id', params.id)
+      .eq('id', (await params).id)
       .eq('user_id', user.id)
       .select()
       .single()
@@ -50,7 +50,7 @@ export async function PUT(
     
     return successResponse(gap, 'Gap resolved successfully')
     
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Resolve gap error:', error)
     return errorResponse('Failed to resolve gap', 500)
   }

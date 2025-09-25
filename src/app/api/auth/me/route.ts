@@ -10,7 +10,7 @@ import { getUserById } from '@/lib/auth'
 export async function GET(request: NextRequest) {
   try {
     // Get user from token
-    const user = getUserFromRequest(request)
+    const user = await getUserFromRequest(request)
     if (!user) {
       return unauthorizedResponse()
     }
@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
       updated_at: userData.updated_at
     })
     
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Get user error:', error)
     return errorResponse('Failed to get user data', 500)
   }
@@ -35,7 +35,7 @@ export async function GET(request: NextRequest) {
 export async function PUT(request: NextRequest) {
   try {
     // Get user from token
-    const user = getUserFromRequest(request)
+    const user = await getUserFromRequest(request)
     if (!user) {
       return unauthorizedResponse()
     }
@@ -65,7 +65,7 @@ export async function PUT(request: NextRequest) {
       updated_at: updatedUser.updated_at
     }, 'Profile updated successfully')
     
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Update user error:', error)
     return errorResponse('Failed to update profile', 500)
   }

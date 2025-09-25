@@ -10,7 +10,7 @@ import { supabase } from '@/lib/supabase'
 export async function GET(request: NextRequest) {
   try {
     // Get user from token
-    const user = getUserFromRequest(request)
+    const user = await getUserFromRequest(request)
     if (!user) {
       return unauthorizedResponse()
     }
@@ -50,7 +50,7 @@ export async function GET(request: NextRequest) {
     
     return successResponse({ gaps })
     
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Get gaps error:', error)
     return errorResponse('Failed to fetch gaps', 500)
   }
@@ -59,7 +59,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     // Get user from token
-    const user = getUserFromRequest(request)
+    const user = await getUserFromRequest(request)
     if (!user) {
       return unauthorizedResponse()
     }
@@ -72,7 +72,7 @@ export async function POST(request: NextRequest) {
       gaps
     }, 'Gap detection completed')
     
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Gap detection error:', error)
     return errorResponse('Failed to detect gaps', 500)
   }
@@ -93,7 +93,7 @@ async function detectMileageGaps(userId: string) {
       return []
     }
     
-    const gaps: any[] = []
+    const gaps: Array<{ date: string; expected_miles: number; actual_miles: number; gap: number; user_id: string; resolved: boolean }> = []
     
     // Check for gaps between consecutive trips
     for (let i = 0; i < trips.length - 1; i++) {
@@ -121,6 +121,7 @@ async function detectMileageGaps(userId: string) {
             date: gapDate.toISOString().split('T')[0],
             expected_miles: Math.floor(expectedMileage / actualDays),
             actual_miles: 0,
+            gap: Math.floor(expectedMileage / actualDays),
             resolved: false
           })
         }

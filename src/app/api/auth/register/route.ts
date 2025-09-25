@@ -50,6 +50,7 @@ export async function POST(request: NextRequest) {
     // Create user
     const user = await createUser({
       email,
+      password,
       password_hash,
       name
     })
@@ -71,7 +72,7 @@ export async function POST(request: NextRequest) {
       token
     }, 'User registered successfully')
     
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Registration error:', error)
     return errorResponse('Registration failed', 500)
   }

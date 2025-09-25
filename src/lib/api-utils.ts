@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-export interface ApiResponse<T = any> {
+export interface ApiResponse<T = unknown> {
   success: boolean
   data?: T
   error?: string
@@ -58,7 +58,7 @@ export function serverErrorResponse(error: string = 'Internal server error'): Ne
 }
 
 // Extract user from request
-export function getUserFromRequest(request: NextRequest) {
+export async function getUserFromRequest(request: NextRequest) {
   const authHeader = request.headers.get('authorization')
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return null
@@ -66,20 +66,20 @@ export function getUserFromRequest(request: NextRequest) {
   
   const token = authHeader.substring(7)
   try {
-    const jwt = require('jsonwebtoken')
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as any
+    const jwt = await import('jsonwebtoken')
+    const decoded = jwt.default.verify(token, process.env.JWT_SECRET!) as { id: string; email: string; name: string }
     return {
       id: decoded.id,
       email: decoded.email,
       name: decoded.name
     }
-  } catch (error) {
+  } catch (_error) {
     return null
   }
 }
 
 // Validate required fields
-export function validateRequiredFields(data: any, requiredFields: string[]): string[] {
+export function validateRequiredFields(data: Record<string, unknown>, requiredFields: string[]): string[] {
   const errors: string[] = []
   
   for (const field of requiredFields) {

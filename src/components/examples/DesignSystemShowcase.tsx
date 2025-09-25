@@ -9,7 +9,7 @@ import { FileUpload } from '@/components/ui/FileUpload';
 export function DesignSystemShowcase() {
   const [loading, setLoading] = useState(false);
   const [inputValue, setInputValue] = useState('');
-  const [error, setError] = useState('');
+  const [error] = useState('');
 
   const handleFileUpload = (file: File) => {
     console.log('File uploaded:', file.name);
@@ -28,7 +28,7 @@ export function DesignSystemShowcase() {
         <div className="text-center space-y-4">
           <h1 className="text-display text-gray-900">Design System Showcase</h1>
           <p className="text-body text-gray-600 max-w-2xl mx-auto">
-            MileHiiv's Apple-inspired Liquid Glass design system with world-class UX best practices
+            MileHiiv&apos;s Apple-inspired Liquid Glass design system with world-class UX best practices
           </p>
         </div>
 

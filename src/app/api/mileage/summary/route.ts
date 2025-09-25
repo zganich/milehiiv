@@ -10,7 +10,7 @@ import { supabase } from '@/lib/supabase'
 export async function GET(request: NextRequest) {
   try {
     // Get user from token
-    const user = getUserFromRequest(request)
+    const user = await getUserFromRequest(request)
     if (!user) {
       return unauthorizedResponse()
     }
@@ -107,14 +107,14 @@ export async function GET(request: NextRequest) {
       }
     })
     
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Summary error:', error)
     return errorResponse('Failed to generate summary', 500)
   }
 }
 
 // Calculate total miles from trips
-function calculateTotalMiles(trips: any[]): number {
+function calculateTotalMiles(trips: Array<{ start_mileage: number; end_mileage: number }>): number {
   return trips.reduce((total, trip) => {
     const miles = trip.end_mileage - trip.start_mileage
     return total + (miles > 0 ? miles : 0)

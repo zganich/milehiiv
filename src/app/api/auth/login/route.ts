@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
       token
     }, 'Login successful')
     
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Login error:', error)
     return errorResponse('Login failed', 500)
   }

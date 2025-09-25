@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
+import { Card } from '@/components/ui/Card';
 import { Input } from '@/components/ui/Input';
 
 export default function OnboardingPage() {
@@ -58,7 +58,7 @@ export default function OnboardingPage() {
               <div>
                 <h1 className="text-3xl font-bold text-gray-900 mb-4">Welcome to MileHiiv!</h1>
                 <p className="text-lg text-gray-600 max-w-md mx-auto">
-                  Let's set up your account so you can start tracking your mileage and saving money on taxes.
+                  Let&apos;s set up your account so you can start tracking your mileage and saving money on taxes.
                 </p>
               </div>
 
@@ -149,14 +149,14 @@ export default function OnboardingPage() {
               </div>
               
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">You're all set!</h2>
+                <h2 className="text-2xl font-bold text-gray-900 mb-4">You&apos;re all set!</h2>
                 <p className="text-gray-600 max-w-md mx-auto">
-                  Your account is ready. Let's upload your first PDF and start tracking your mileage.
+                  Your account is ready. Let&apos;s upload your first PDF and start tracking your mileage.
                 </p>
               </div>
 
               <div className="bg-blue-50 rounded-xl p-6 text-left">
-                <h3 className="font-semibold text-blue-900 mb-3">What's next?</h3>
+                <h3 className="font-semibold text-blue-900 mb-3">What&apos;s next?</h3>
                 <ul className="space-y-2 text-blue-800">
                   <li className="flex items-center">
                     <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">

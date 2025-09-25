@@ -9,16 +9,16 @@ import { FileUpload } from '@/components/ui/FileUpload';
 export default function UploadPage() {
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [processing, setProcessing] = useState(false);
-  const [results, setResults] = useState<any>(null);
+  const [results, setResults] = useState<unknown>(null);
 
-  const handleFileUpload = async (file: File) => {
-    setUploadedFile(file);
+  const handleFileUpload = async (_file: File) => {
+    setUploadedFile(_file);
     setProcessing(true);
     
     // Simulate PDF processing
     setTimeout(() => {
       setResults({
-        fileName: file.name,
+        fileName: _file.name,
         totalMiles: 1247,
         businessMiles: 892,
         personalMiles: 355,
@@ -73,7 +73,6 @@ export default function UploadPage() {
           </p>
         </div>
 
-        {/* Upload Section */}
         <Card variant="glass" padding="xl" className="mb-8">
           <CardHeader>
             <CardTitle className="text-center">Drop Your PDF Here</CardTitle>
@@ -143,7 +142,7 @@ export default function UploadPage() {
                 </CardHeader>
                 <CardContent>
                   <p className="text-orange-700 mb-4">
-                    We found a potential gap in your mileage records. This could mean you're missing deductible miles!
+                    We found a potential gap in your mileage records. This could mean you&apos;re missing deductible miles!
                   </p>
                   <div className="bg-white rounded-lg p-4 border border-orange-200">
                     <div className="flex justify-between items-center">
@@ -170,7 +169,7 @@ export default function UploadPage() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  {results.trips.map((trip: any, index: number) => (
+                  {(results as { trips: Array<{ date: string; start_mileage: number; end_mileage: number; business: boolean }> }).trips.map((trip, index: number) => (
                     <div key={index} className="flex justify-between items-center p-3 bg-white rounded-lg border">
                       <div>
                         <div className="font-medium">{trip.date}</div>

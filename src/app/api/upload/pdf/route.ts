@@ -7,14 +7,14 @@ import {
 } from '@/lib/api-utils'
 import { getUserFromRequest } from '@/lib/api-utils'
 import { supabase } from '@/lib/supabase'
-import pdf from 'pdf-parse'
+// pdf-parse will be imported dynamically to avoid build issues
 
 const MAX_FILE_SIZE = parseInt(process.env.MAX_FILE_SIZE || '10485760') // 10MB
 
 export async function POST(request: NextRequest) {
   try {
     // Get user from token
-    const user = getUserFromRequest(request)
+    const user = await getUserFromRequest(request)
     if (!user) {
       return unauthorizedResponse()
     }
@@ -60,6 +60,7 @@ export async function POST(request: NextRequest) {
       const buffer = Buffer.from(arrayBuffer)
       
       // Parse PDF
+      const pdf = (await import('pdf-parse')).default
       const pdfData = await pdf(buffer)
       const text = pdfData.text
       
@@ -74,8 +75,8 @@ export async function POST(request: NextRequest) {
           start_mileage: trip.start_mileage,
           end_mileage: trip.end_mileage,
           business: trip.business,
-          location: trip.location,
-          notes: trip.notes
+          location: trip.location || null,
+          notes: trip.notes || null
         }))
         
         const { error: tripsError } = await supabase
@@ -121,7 +122,7 @@ export async function POST(request: NextRequest) {
       return errorResponse('Failed to process PDF', 500)
     }
     
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Upload error:', error)
     return serverErrorResponse('Upload failed')
   }
@@ -129,7 +130,7 @@ export async function POST(request: NextRequest) {
 
 // Extract mileage data from PDF text
 function extractMileageData(text: string) {
-  const trips: any[] = []
+  const trips: Array<{ date: string; start_mileage: number; end_mileage: number; business: boolean; location?: string; notes?: string }> = []
   
   // Look for common mileage patterns
   const patterns = [
