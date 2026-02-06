@@ -2,164 +2,207 @@
 
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/Card';
+import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/Card';
 import { FileUpload } from '@/components/ui/FileUpload';
 import { Nav } from '@/components/layout/Nav';
 import { Footer } from '@/components/layout/Footer';
-import { ArrowRight, FileText, LineChart, Zap, Shield, Clock, DollarSign } from 'lucide-react';
+import { ArrowRight, FileText, LineChart, DollarSign, Upload, Search, FileCheck, Car } from 'lucide-react';
 
 export default function Home() {
   const handleFileUpload = (file: File) => {
     console.log('File uploaded:', file.name);
-    // Redirect to upload page with file
     window.location.href = '/upload';
   };
 
+  // Calculate days until April 15
+  const today = new Date();
+  const taxDeadline = new Date(today.getFullYear(), 3, 15); // April 15
+  if (today > taxDeadline) {
+    taxDeadline.setFullYear(taxDeadline.getFullYear() + 1);
+  }
+  const daysUntilDeadline = Math.ceil((taxDeadline.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+
   return (
     <div className="min-h-screen flex flex-col">
+      {/* Urgency Banner */}
+      <div className="bg-warning text-warning-foreground py-2 px-4 text-center text-sm font-medium">
+        <span className="inline-flex items-center gap-2">
+          ⏰ Tax deadline in <strong>{daysUntilDeadline} days</strong> — Don&apos;t file without your full mileage deduction
+        </span>
+      </div>
+
       <Nav />
 
       {/* Hero Section */}
-      <section className="relative py-12 md:py-16 lg:py-20 overflow-hidden">
-        {/* Background glow */}
+      <section className="relative py-10 md:py-14 lg:py-16 overflow-hidden">
         <div className="hero-glow left-1/2 top-0 -translate-x-1/2 -translate-y-1/2" />
         
         <div className="container relative">
           <div className="max-w-3xl mx-auto text-center stagger-children">
-            <div className="badge badge-accent mb-6">
-              <Zap className="w-3 h-3" />
-              Now with AI-powered screenshot import
+            {/* Lead with the money stat */}
+            <div className="badge badge-warning mb-4 text-base px-4 py-2">
+              <DollarSign className="w-4 h-4" />
+              Gig drivers are missing $5,360/year on average
             </div>
             
-            <h1 className="text-display text-foreground mb-6">
-              Track every mile.
-              <span className="text-gradient-accent block">Save more on taxes.</span>
+            <h1 className="text-display text-foreground mb-4">
+              You&apos;re leaving money
+              <span className="text-gradient-accent block">on the table.</span>
             </h1>
             
-            <p className="text-lg md:text-xl text-foreground-muted mb-8 max-w-2xl mx-auto">
-              The smart mileage tracker for gig drivers. Import from any platform, 
-              detect missed deductions, and export IRS-ready reports in minutes.
+            <p className="text-lg md:text-xl text-foreground-muted mb-6 max-w-2xl mx-auto">
+              Uber, Lyft, and DoorDash only track <em>active trip</em> miles. 
+              <strong> The 40% you drive between pickups?</strong> That&apos;s money you&apos;re not claiming.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/register">
-                <Button size="lg" className="w-full sm:w-auto">
-                  Start tracking free
+            {/* Key stats inline */}
+            <div className="grid grid-cols-3 gap-4 max-w-lg mx-auto mb-8 text-center">
+              <div className="bg-card rounded-lg p-3 border border-border">
+                <div className="text-2xl md:text-3xl font-bold text-accent">40%</div>
+                <p className="text-xs text-foreground-subtle">Miles apps miss</p>
+              </div>
+              <div className="bg-card rounded-lg p-3 border border-border">
+                <div className="text-2xl md:text-3xl font-bold text-success">$5,360</div>
+                <p className="text-xs text-foreground-subtle">Avg found/year</p>
+              </div>
+              <div className="bg-card rounded-lg p-3 border border-border">
+                <div className="text-2xl md:text-3xl font-bold text-warning">30 sec</div>
+                <p className="text-xs text-foreground-subtle">To see yours</p>
+              </div>
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <Link href="#try-it">
+                <Button size="lg" className="w-full sm:w-auto text-base">
+                  Find my hidden miles
                   <ArrowRight className="w-4 h-4" />
                 </Button>
               </Link>
-              <Link href="/pricing">
-                <Button variant="secondary" size="lg" className="w-full sm:w-auto">
-                  View pricing
-                </Button>
-              </Link>
             </div>
 
-            {/* Social proof */}
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-6 text-sm text-foreground-subtle">
-              <div className="flex items-center gap-2">
-                <div className="flex -space-x-2">
-                  {[1,2,3,4].map(i => (
-                    <div key={i} className="w-7 h-7 rounded-full bg-card border-2 border-background" />
-                  ))}
-                </div>
-                <span>2,000+ drivers</span>
-              </div>
-              <div className="flex items-center gap-1">
-                {[1,2,3,4,5].map(i => (
-                  <svg key={i} className="w-4 h-4 text-warning" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                ))}
-                <span className="ml-1">4.9 rating</span>
+            {/* Platform logos instead of fake avatars */}
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-4 text-sm text-foreground-subtle">
+              <span>Works with:</span>
+              <div className="flex items-center gap-3 font-medium">
+                <span className="flex items-center gap-1.5 bg-card px-3 py-1.5 rounded-full border border-border">
+                  <Car className="w-4 h-4" /> Uber
+                </span>
+                <span className="flex items-center gap-1.5 bg-card px-3 py-1.5 rounded-full border border-border">
+                  <Car className="w-4 h-4" /> Lyft
+                </span>
+                <span className="flex items-center gap-1.5 bg-card px-3 py-1.5 rounded-full border border-border">
+                  <Car className="w-4 h-4" /> DoorDash
+                </span>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Features Grid */}
-      <section className="py-12 md:py-16">
+      {/* How It Works - 3 Steps */}
+      <section className="py-10 md:py-14 bg-background-secondary">
         <div className="container">
-          <div className="text-center mb-10">
-            <h2 className="text-headline text-foreground mb-4">
-              Everything you need to maximize deductions
+          <div className="text-center mb-8">
+            <h2 className="text-headline text-foreground mb-2">
+              See your missing miles in 3 steps
             </h2>
-            <p className="text-foreground-muted max-w-2xl mx-auto">
-              Stop leaving money on the table. MileHiiv captures every deductible mile 
-              that gig apps miss.
+            <p className="text-foreground-muted">
+              No signup. No app download. Just answers.
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+          <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+            <div className="flex flex-col items-center text-center">
+              <div className="w-14 h-14 rounded-full bg-accent text-accent-foreground flex items-center justify-center mb-4 text-xl font-bold">
+                1
+              </div>
+              <div className="flex items-center gap-2 mb-2">
+                <Upload className="w-5 h-5 text-accent" />
+                <h3 className="font-semibold text-foreground">Upload your CSV</h3>
+              </div>
+              <p className="text-sm text-foreground-muted">
+                Export your trip history from Uber, Lyft, or DoorDash. Takes 30 seconds.
+              </p>
+            </div>
+
+            <div className="flex flex-col items-center text-center">
+              <div className="w-14 h-14 rounded-full bg-success text-success-foreground flex items-center justify-center mb-4 text-xl font-bold">
+                2
+              </div>
+              <div className="flex items-center gap-2 mb-2">
+                <Search className="w-5 h-5 text-success" />
+                <h3 className="font-semibold text-foreground">We find the gaps</h3>
+              </div>
+              <p className="text-sm text-foreground-muted">
+                Our AI spots every deadhead mile — the drives between pickups you&apos;re not tracking.
+              </p>
+            </div>
+
+            <div className="flex flex-col items-center text-center">
+              <div className="w-14 h-14 rounded-full bg-warning text-warning-foreground flex items-center justify-center mb-4 text-xl font-bold">
+                3
+              </div>
+              <div className="flex items-center gap-2 mb-2">
+                <FileCheck className="w-5 h-5 text-warning" />
+                <h3 className="font-semibold text-foreground">Get your money</h3>
+              </div>
+              <p className="text-sm text-foreground-muted">
+                Download IRS-ready reports. Works with TurboTax, H&R Block, or your CPA.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 3 Core Features */}
+      <section className="py-10 md:py-14">
+        <div className="container">
+          <div className="text-center mb-8">
+            <h2 className="text-headline text-foreground mb-2">
+              Built for multi-appers and 1099 grinders
+            </h2>
+            <p className="text-foreground-muted max-w-xl mx-auto">
+              We know you&apos;re running 3 apps at once and switching between rides and deliveries. 
+              MileHiiv handles the chaos.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-4 md:gap-6 max-w-4xl mx-auto">
             <Card interactive className="group">
               <CardHeader>
-                <div className="w-10 h-10 rounded-lg bg-accent-muted flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                  <FileText className="w-5 h-5 text-accent" />
+                <div className="w-12 h-12 rounded-lg bg-accent-muted flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  <FileText className="w-6 h-6 text-accent" />
                 </div>
                 <CardTitle>Smart Import</CardTitle>
                 <CardDescription>
-                  Import from Uber, Lyft, DoorDash CSVs or just snap a screenshot. Our AI handles the rest.
+                  Drop your Uber, Lyft, or DoorDash CSV and we parse it instantly. 
+                  Screenshot works too — AI reads it.
                 </CardDescription>
               </CardHeader>
             </Card>
 
             <Card interactive className="group">
               <CardHeader>
-                <div className="w-10 h-10 rounded-lg bg-success-muted flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                  <LineChart className="w-5 h-5 text-success" />
+                <div className="w-12 h-12 rounded-lg bg-success-muted flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  <LineChart className="w-6 h-6 text-success" />
                 </div>
                 <CardTitle>Gap Detection</CardTitle>
                 <CardDescription>
-                  Automatically find the "deadhead" miles between trips that apps don&apos;t track but are 100% deductible.
+                  Every deadhead mile between trips. Every drive to a surge zone. 
+                  Every &quot;going home&quot; leg. <strong>All deductible. All found.</strong>
                 </CardDescription>
               </CardHeader>
             </Card>
 
             <Card interactive className="group">
               <CardHeader>
-                <div className="w-10 h-10 rounded-lg bg-warning-muted flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                  <DollarSign className="w-5 h-5 text-warning" />
+                <div className="w-12 h-12 rounded-lg bg-warning-muted flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  <DollarSign className="w-6 h-6 text-warning" />
                 </div>
-                <CardTitle>Tax Reports</CardTitle>
+                <CardTitle>Tax-Ready Reports</CardTitle>
                 <CardDescription>
-                  Generate IRS-ready mileage logs with one click. Works with TurboTax, H&R Block, and your CPA.
-                </CardDescription>
-              </CardHeader>
-            </Card>
-
-            <Card interactive className="group">
-              <CardHeader>
-                <div className="w-10 h-10 rounded-lg bg-accent-muted flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                  <Clock className="w-5 h-5 text-accent" />
-                </div>
-                <CardTitle>Quick Log</CardTitle>
-                <CardDescription>
-                  Start/stop tracking with one tap. Perfect for multi-app drivers who switch platforms.
-                </CardDescription>
-              </CardHeader>
-            </Card>
-
-            <Card interactive className="group">
-              <CardHeader>
-                <div className="w-10 h-10 rounded-lg bg-success-muted flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                  <Zap className="w-5 h-5 text-success" />
-                </div>
-                <CardTitle>Google Timeline</CardTitle>
-                <CardDescription>
-                  Connect your Google Timeline for automatic trip detection and mileage calculation.
-                </CardDescription>
-              </CardHeader>
-            </Card>
-
-            <Card interactive className="group">
-              <CardHeader>
-                <div className="w-10 h-10 rounded-lg bg-warning-muted flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                  <Shield className="w-5 h-5 text-warning" />
-                </div>
-                <CardTitle>Audit-Ready</CardTitle>
-                <CardDescription>
-                  Every trip is timestamped and stored securely. If the IRS asks, you&apos;re prepared.
+                  One-click IRS mileage log. Timestamps, addresses, purpose — 
+                  everything auditors want, nothing they don&apos;t.
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -167,17 +210,22 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-12 md:py-16">
+      {/* Try It Now CTA - Main Conversion Point */}
+      <section id="try-it" className="py-10 md:py-14 bg-background-secondary">
         <div className="container">
-          <Card variant="elevated" padding="lg" className="max-w-3xl mx-auto text-center">
+          <Card variant="elevated" padding="lg" className="max-w-2xl mx-auto text-center border-accent border-2">
             <div className="max-w-xl mx-auto">
-              <h3 className="text-headline text-foreground mb-3">
-                Try it now — no account needed
+              <div className="badge badge-accent mb-4">
+                <DollarSign className="w-3 h-3" />
+                Free instant analysis
+              </div>
+              
+              <h3 className="text-headline text-foreground mb-2">
+                See what you&apos;re missing
               </h3>
-              <p className="text-foreground-muted mb-8">
-                Upload a CSV or screenshot and see your mileage summary in seconds. 
-                Create an account later to save your data.
+              <p className="text-foreground-muted mb-6">
+                Upload your Uber, Lyft, or DoorDash trip export. 
+                <strong> See your hidden miles in 30 seconds.</strong> No account needed.
               </p>
               
               <FileUpload
@@ -187,48 +235,76 @@ export default function Home() {
                 className="max-w-md mx-auto"
               />
               
-              <div className="flex items-center justify-center gap-6 mt-6 text-sm text-foreground-subtle">
-                <span className="flex items-center gap-1.5">
-                  <svg className="w-4 h-4 text-success" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                  Free to try
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <svg className="w-4 h-4 text-success" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                  No signup required
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <svg className="w-4 h-4 text-success" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                  Instant results
-                </span>
-              </div>
+              <p className="text-xs text-foreground-subtle mt-4">
+                Accepts CSV exports, PDFs, or screenshots. Your data stays private.
+              </p>
             </div>
           </Card>
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="py-12 md:py-16 bg-background-secondary">
+      {/* Quick FAQ / Objection Handling */}
+      <section className="py-10 md:py-14">
         <div className="container">
-          <div className="grid sm:grid-cols-3 gap-8 text-center">
-            <div>
-              <div className="text-4xl md:text-5xl font-bold text-accent mb-2">$5,360</div>
-              <p className="text-foreground-muted">Average additional deductions found per driver</p>
-            </div>
-            <div>
-              <div className="text-4xl md:text-5xl font-bold text-success mb-2">40%</div>
-              <p className="text-foreground-muted">Of miles are "deadhead" that apps don&apos;t track</p>
-            </div>
-            <div>
-              <div className="text-4xl md:text-5xl font-bold text-warning mb-2">30 sec</div>
-              <p className="text-foreground-muted">Average time to import and analyze your trips</p>
+          <div className="max-w-2xl mx-auto">
+            <h2 className="text-headline text-foreground text-center mb-8">
+              Questions drivers ask
+            </h2>
+            
+            <div className="space-y-4">
+              <details className="group bg-card rounded-lg border border-border p-4">
+                <summary className="font-semibold cursor-pointer list-none flex justify-between items-center">
+                  &quot;Wait, I can deduct miles BETWEEN trips?&quot;
+                  <span className="text-accent group-open:rotate-180 transition-transform">▼</span>
+                </summary>
+                <p className="mt-3 text-foreground-muted text-sm">
+                  Yes! The IRS allows you to deduct <em>all</em> business-related driving — including deadhead miles 
+                  (driving to pickup), repositioning to surge areas, and driving between platforms. 
+                  Apps only track when you have a passenger/order. The rest is on you.
+                </p>
+              </details>
+
+              <details className="group bg-card rounded-lg border border-border p-4">
+                <summary className="font-semibold cursor-pointer list-none flex justify-between items-center">
+                  &quot;How do I get my trip data from Uber/Lyft?&quot;
+                  <span className="text-accent group-open:rotate-180 transition-transform">▼</span>
+                </summary>
+                <p className="mt-3 text-foreground-muted text-sm">
+                  Each app has a &quot;Download my data&quot; option in settings. For Uber: Settings → Privacy → Download your data. 
+                  For Lyft: Settings → Personal info → Request your data. We&apos;ll walk you through it.
+                </p>
+              </details>
+
+              <details className="group bg-card rounded-lg border border-border p-4">
+                <summary className="font-semibold cursor-pointer list-none flex justify-between items-center">
+                  &quot;Is this IRS legit?&quot;
+                  <span className="text-accent group-open:rotate-180 transition-transform">▼</span>
+                </summary>
+                <p className="mt-3 text-foreground-muted text-sm">
+                  100%. The IRS requires a contemporaneous log with date, destination, business purpose, and miles. 
+                  That&apos;s exactly what MileHiiv generates. Our reports are used by thousands of drivers at tax time.
+                </p>
+              </details>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Final CTA */}
+      <section className="py-10 md:py-14 bg-accent text-accent-foreground">
+        <div className="container text-center">
+          <h2 className="text-2xl md:text-3xl font-bold mb-3">
+            Tax deadline: {daysUntilDeadline} days away
+          </h2>
+          <p className="text-accent-foreground/80 mb-6 max-w-lg mx-auto">
+            Don&apos;t leave thousands on the table. See your missing miles now — it takes 30 seconds.
+          </p>
+          <Link href="#try-it">
+            <Button size="lg" variant="secondary" className="text-base">
+              Find my hidden miles
+              <ArrowRight className="w-4 h-4" />
+            </Button>
+          </Link>
         </div>
       </section>
 
