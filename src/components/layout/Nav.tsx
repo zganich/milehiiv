@@ -17,9 +17,11 @@ export function Nav({ showAuth = true, showDashboardNav = false }: NavProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const publicLinks = [
-    { href: '/tax-strategy', label: 'Tax Strategy' },
-    { href: '/already-filed', label: 'Already Filed?' },
-    { href: '/pricing', label: 'Pricing' }
+    { href: '/how-it-works', label: 'How It Works' },
+    { href: '/drivers', label: 'Drivers' },
+    { href: '/reports', label: 'Reports' },
+    { href: '/pricing', label: 'Pricing' },
+    { href: '/security', label: 'Security' },
   ];
 
   const dashboardLinks = [
@@ -32,9 +34,9 @@ export function Nav({ showAuth = true, showDashboardNav = false }: NavProps) {
   return (
     <nav className="nav">
       <div className="container">
-        <div className="flex items-center justify-between h-14 md:h-16">
+        <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2">
+          <Link href="/" className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-lg bg-accent flex items-center justify-center">
               <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M12 2L2 7l10 5 10-5-10-5z" />
@@ -67,8 +69,8 @@ export function Nav({ showAuth = true, showDashboardNav = false }: NavProps) {
               <Link href="/login">
                 <Button variant="ghost" size="sm">Sign in</Button>
               </Link>
-              <Link href="/register">
-                <Button size="sm">Get started</Button>
+              <Link href="/upload">
+                <Button size="sm">Upload data</Button>
               </Link>
             </div>
           )}
@@ -84,6 +86,7 @@ export function Nav({ showAuth = true, showDashboardNav = false }: NavProps) {
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
             className="md:hidden p-2 -mr-2 text-foreground-muted hover:text-foreground"
+            aria-label="Toggle menu"
           >
             {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
@@ -109,12 +112,12 @@ export function Nav({ showAuth = true, showDashboardNav = false }: NavProps) {
               
               {showAuth && (
                 <>
-                  <hr className="divider my-2" />
+                  <hr className="divider my-3" />
                   <Link href="/login" onClick={() => setMobileOpen(false)}>
                     <span className="nav-link py-3 w-full">Sign in</span>
                   </Link>
-                  <Link href="/register" onClick={() => setMobileOpen(false)}>
-                    <Button className="w-full mt-2">Get started</Button>
+                  <Link href="/upload" onClick={() => setMobileOpen(false)}>
+                    <Button className="w-full mt-2">Upload data</Button>
                   </Link>
                 </>
               )}

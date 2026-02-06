@@ -1,0 +1,171 @@
+'use client';
+
+import Link from 'next/link';
+import { Button } from '@/components/ui/Button';
+import { Nav } from '@/components/layout/Nav';
+import { Footer } from '@/components/layout/Footer';
+import { ArrowRight, Check, Upload } from 'lucide-react';
+
+export default function UberMileage() {
+  return (
+    <div className="min-h-screen flex flex-col">
+      <Nav />
+
+      {/* Hero */}
+      <section className="section">
+        <div className="container">
+          <div className="max-w-3xl mx-auto text-center stagger-children">
+            <div className="badge badge-accent mb-4">For Uber drivers</div>
+            <h1 className="text-display mb-6">
+              Uber doesn&apos;t count all your miles. We do.
+            </h1>
+            <p className="text-lg md:text-xl text-foreground-muted leading-relaxed mb-8">
+              Every time you drive to pick someone up, reposition to a surge area, or head home after your last ride — Uber doesn&apos;t track those miles. But the IRS lets you deduct them.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link href="/upload">
+                <Button size="lg" className="w-full sm:w-auto">
+                  Upload your Uber history
+                  <ArrowRight className="w-4 h-4" />
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* The problem */}
+      <section className="section-sm bg-background-secondary">
+        <div className="container">
+          <div className="max-w-4xl mx-auto">
+            <div className="grid md:grid-cols-2 gap-10 items-center">
+              <div>
+                <h2 className="text-headline mb-4">What Uber tracks vs. what&apos;s deductible</h2>
+                <p className="text-foreground-muted mb-6 leading-relaxed">
+                  Uber only tracks miles when you have a passenger in your car. But the IRS allows you to deduct <em>all</em> business-related driving:
+                </p>
+                <ul className="space-y-3">
+                  <li className="flex items-start gap-3 text-foreground-muted">
+                    <Check className="w-4 h-4 text-accent flex-shrink-0 mt-1" />
+                    Miles driving to your first pickup of the day
+                  </li>
+                  <li className="flex items-start gap-3 text-foreground-muted">
+                    <Check className="w-4 h-4 text-accent flex-shrink-0 mt-1" />
+                    Miles between dropping off one rider and picking up the next
+                  </li>
+                  <li className="flex items-start gap-3 text-foreground-muted">
+                    <Check className="w-4 h-4 text-accent flex-shrink-0 mt-1" />
+                    Miles repositioning to surge areas or busy locations
+                  </li>
+                  <li className="flex items-start gap-3 text-foreground-muted">
+                    <Check className="w-4 h-4 text-accent flex-shrink-0 mt-1" />
+                    Miles driving home after your last ride
+                  </li>
+                </ul>
+              </div>
+              <div className="bg-card border border-border rounded-xl p-6">
+                <h4 className="text-sm font-semibold text-foreground mb-4">Typical Uber driver example</h4>
+                <div className="space-y-3">
+                  <div className="flex justify-between text-sm border-b border-border pb-3">
+                    <span className="text-foreground-muted">Uber-tracked miles</span>
+                    <span className="font-medium">8,200</span>
+                  </div>
+                  <div className="flex justify-between text-sm border-b border-border pb-3">
+                    <span className="text-foreground-muted">Deadhead miles (to pickups)</span>
+                    <span className="font-medium text-accent">+2,100</span>
+                  </div>
+                  <div className="flex justify-between text-sm border-b border-border pb-3">
+                    <span className="text-foreground-muted">Repositioning miles</span>
+                    <span className="font-medium text-accent">+1,000</span>
+                  </div>
+                  <div className="flex justify-between text-sm pt-2 font-semibold">
+                    <span>Total deductible</span>
+                    <span>11,300 miles</span>
+                  </div>
+                </div>
+                <div className="mt-4 p-3 bg-accent-muted rounded-lg">
+                  <p className="text-sm text-accent font-medium">
+                    At $0.67/mile = $2,077 extra deduction
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* How it works */}
+      <section className="section-sm">
+        <div className="container">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-headline mb-8 text-center">How to get your Uber data</h2>
+            
+            <div className="space-y-4">
+              <div className="bg-card border border-border rounded-xl p-6">
+                <div className="flex items-start gap-4">
+                  <div className="w-8 h-8 rounded-full bg-accent text-white flex items-center justify-center flex-shrink-0 font-semibold text-sm">
+                    1
+                  </div>
+                  <div>
+                    <h3 className="text-title mb-2">Request your Uber data</h3>
+                    <p className="text-foreground-muted text-sm leading-relaxed">
+                      In the Uber app, go to Settings → Privacy → Download Your Data. Request your trip data — Uber will email you a download link within a few days.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-card border border-border rounded-xl p-6">
+                <div className="flex items-start gap-4">
+                  <div className="w-8 h-8 rounded-full bg-accent text-white flex items-center justify-center flex-shrink-0 font-semibold text-sm">
+                    2
+                  </div>
+                  <div>
+                    <h3 className="text-title mb-2">Upload to MileHiiv</h3>
+                    <p className="text-foreground-muted text-sm leading-relaxed">
+                      Once you have your data, upload the trip CSV file to MileHiiv. We&apos;ll analyze your trip history and find all the deadhead miles.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-card border border-border rounded-xl p-6">
+                <div className="flex items-start gap-4">
+                  <div className="w-8 h-8 rounded-full bg-accent text-white flex items-center justify-center flex-shrink-0 font-semibold text-sm">
+                    3
+                  </div>
+                  <div>
+                    <h3 className="text-title mb-2">Download your report</h3>
+                    <p className="text-foreground-muted text-sm leading-relaxed">
+                      Get a clean, IRS-ready mileage report with every trip documented — including all the miles Uber missed.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="section bg-background-secondary">
+        <div className="container">
+          <div className="max-w-2xl mx-auto text-center">
+            <h2 className="text-headline mb-4">Stop leaving money on the table</h2>
+            <p className="text-foreground-muted mb-8">
+              Upload your Uber trip history and see how much you&apos;ve been missing.
+            </p>
+            <Link href="/upload">
+              <Button size="lg">
+                <Upload className="w-4 h-4" />
+                Upload your Uber history
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <Footer />
+    </div>
+  );
+}
