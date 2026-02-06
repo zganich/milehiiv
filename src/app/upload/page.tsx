@@ -42,13 +42,13 @@ export default function UploadPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-gradient-to-br from-teal-50 to-cyan-100">
       {/* Navigation */}
       <nav className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <Link href="/" className="flex items-center">
-              <h1 className="text-2xl font-bold text-blue-600">MileHiiv</h1>
+              <h1 className="text-2xl font-bold text-teal-600">MileHiiv</h1>
             </Link>
             <div className="flex items-center space-x-4">
               <Link href="/login">
@@ -88,7 +88,7 @@ export default function UploadPage() {
             {processing && (
               <div className="mt-6 text-center">
                 <div className="inline-flex items-center space-x-3">
-                  <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
+                  <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-teal-600"></div>
                   <span className="text-gray-600">Processing your PDF...</span>
                 </div>
               </div>
@@ -103,7 +103,7 @@ export default function UploadPage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <Card variant="solid" className="text-center">
                 <CardContent className="pt-6">
-                  <div className="text-3xl font-bold text-blue-600 mb-2">
+                  <div className="text-3xl font-bold text-teal-600 mb-2">
                     {results.totalMiles.toLocaleString()}
                   </div>
                   <div className="text-gray-600">Total Miles</div>
@@ -225,7 +225,7 @@ export default function UploadPage() {
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="text-center">
-                  <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                  <div className="w-12 h-12 bg-teal-100 rounded-lg flex items-center justify-center mx-auto mb-4">
                     <span className="text-2xl">📄</span>
                   </div>
                   <h3 className="font-semibold mb-2">1. Upload PDF</h3>

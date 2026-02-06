@@ -20,7 +20,7 @@ export default function Home() {
       <Nav />
 
       {/* Hero Section */}
-      <section className="relative py-16 md:py-24 lg:py-32 overflow-hidden">
+      <section className="relative py-12 md:py-16 lg:py-20 overflow-hidden">
         {/* Background glow */}
         <div className="hero-glow left-1/2 top-0 -translate-x-1/2 -translate-y-1/2" />
         
@@ -36,7 +36,7 @@ export default function Home() {
               <span className="text-gradient-accent block">Save more on taxes.</span>
             </h1>
             
-            <p className="text-lg md:text-xl text-foreground-muted mb-10 max-w-2xl mx-auto">
+            <p className="text-lg md:text-xl text-foreground-muted mb-8 max-w-2xl mx-auto">
               The smart mileage tracker for gig drivers. Import from any platform, 
               detect missed deductions, and export IRS-ready reports in minutes.
             </p>
@@ -56,7 +56,7 @@ export default function Home() {
             </div>
 
             {/* Social proof */}
-            <div className="mt-10 flex flex-wrap items-center justify-center gap-6 text-sm text-foreground-subtle">
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-6 text-sm text-foreground-subtle">
               <div className="flex items-center gap-2">
                 <div className="flex -space-x-2">
                   {[1,2,3,4].map(i => (
@@ -79,9 +79,9 @@ export default function Home() {
       </section>
 
       {/* Features Grid */}
-      <section className="py-16 md:py-24">
+      <section className="py-12 md:py-16">
         <div className="container">
-          <div className="text-center mb-12">
+          <div className="text-center mb-10">
             <h2 className="text-headline text-foreground mb-4">
               Everything you need to maximize deductions
             </h2>
@@ -168,7 +168,7 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 md:py-24">
+      <section className="py-12 md:py-16">
         <div className="container">
           <Card variant="elevated" padding="lg" className="max-w-3xl mx-auto text-center">
             <div className="max-w-xl mx-auto">
@@ -213,7 +213,7 @@ export default function Home() {
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 md:py-24 bg-background-secondary">
+      <section className="py-12 md:py-16 bg-background-secondary">
         <div className="container">
           <div className="grid sm:grid-cols-3 gap-8 text-center">
             <div>
