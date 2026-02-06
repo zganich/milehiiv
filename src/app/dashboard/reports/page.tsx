@@ -1,7 +1,7 @@
 import Sidebar from '@/components/Sidebar';
 import Table from '@/components/Table';
 
-export default function Reports() {
+export default function DashboardReports() {
   return (
     <div className="app-shell">
       <Sidebar active="reports" />

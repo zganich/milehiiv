@@ -1,5 +1,6 @@
 import Sidebar from '@/components/Sidebar';
 import StatCard from '@/components/StatCard';
+import UploadZone from '@/components/UploadZone';
 import Link from 'next/link';
 
 export default function Dashboard() {
@@ -15,6 +16,9 @@ export default function Dashboard() {
           <StatCard label="Total Miles Found" value="14,320" />
           <StatCard label="Deadhead Miles" value="3,180" />
           <StatCard label="Reports Generated" value="6" />
+        </div>
+        <div className="mt-md">
+          <UploadZone />
         </div>
       </main>
     </div>

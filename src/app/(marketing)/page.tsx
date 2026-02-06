@@ -8,13 +8,13 @@ export default function Home() {
         <div className="container">
           <div className="hero-content">
             <div className="hero-text">
-              <h1>Find the miles your apps don't track.</h1>
+              <h1>Find the miles your apps don&apos;t track.</h1>
               <p>
                 MileHiiv analyzes your driving data to uncover missed and deadhead miles — then generates clean, IRS-ready reports in minutes.
               </p>
               <div className="hero-ctas">
                 <Link href="/upload" className="btn btn-primary">Upload your driving data</Link>
-                <Link href="/dashboard" className="btn btn-secondary">See how it works</Link>
+                <Link href="/how-it-works" className="btn btn-secondary">See how it works</Link>
               </div>
               <p className="trust-line">No GPS tracking • No bank access • Delete your data anytime</p>
             </div>
@@ -51,7 +51,7 @@ export default function Home() {
             </div>
             <div className="card step-card">
               <div className="step-number">2</div>
-              <h3>We find what's missing</h3>
+              <h3>We find what&apos;s missing</h3>
               <p>MileHiiv identifies deadhead miles, gaps, and underreported distance your apps ignore.</p>
             </div>
             <div className="card step-card">
@@ -74,7 +74,7 @@ export default function Home() {
               <h2>Why it matters</h2>
               <p><strong>The problem:</strong> Most mileage tools only track miles during active trips. That leaves repositioning, deadhead, and app gaps uncounted — which means less deduction and more risk.</p>
               <p className="mt-sm"><strong>The solution:</strong> MileHiiv closes those gaps and gives you documentation you can actually stand behind.</p>
-              <Link href="/upload" className="btn btn-secondary mt-md">See what you're missing →</Link>
+              <Link href="/upload" className="btn btn-secondary mt-md">See what you&apos;re missing →</Link>
             </div>
             <div className="hero-visual">
               <img src="/report-preview.svg" alt="Report preview" />
@@ -86,7 +86,7 @@ export default function Home() {
       {/* WHO IT'S FOR */}
       <section>
         <div className="container">
-          <h2 className="text-center">Who it's for</h2>
+          <h2 className="text-center">Who it&apos;s for</h2>
           <div className="grid grid-4">
             <div className="card">
               <h3>Full-time gig drivers</h3>
@@ -101,9 +101,12 @@ export default function Home() {
               <p>Get documentation that holds up at tax time.</p>
             </div>
             <div className="card">
-              <h3>Audit-conscious drivers</h3>
+              <h3>Drivers who care about audit readiness</h3>
               <p>Reports built with IRS standards in mind.</p>
             </div>
+          </div>
+          <div className="text-center mt-md">
+            <Link href="/drivers" className="btn btn-secondary">Is MileHiiv right for me?</Link>
           </div>
         </div>
       </section>
@@ -112,18 +115,17 @@ export default function Home() {
       <section className="section-muted">
         <div className="container">
           <div className="split">
-            <div className="report-preview">
-              <h3>Sample Report</h3>
-              <ul>
-                <li>Categorized mileage by trip type</li>
-                <li>Clear totals and summaries</li>
+            <div className="report-preview-block">
+              <img src="/report-preview.svg" alt="Sample report" />
+            </div>
+            <div className="split-content">
+              <h2>Know exactly what you&apos;re filing</h2>
+              <ul className="report-benefits">
+                <li>Categorized mileage</li>
+                <li>Clear totals</li>
                 <li>Audit-friendly formatting</li>
                 <li>CPA-ready exports</li>
               </ul>
-            </div>
-            <div className="split-content">
-              <h2>Know exactly what you're filing</h2>
-              <p>Every report includes categorized mileage, clear totals, and formatting that works with TurboTax, H&R Block, and your CPA.</p>
               <Link href="/reports" className="btn btn-secondary mt-md">Download a sample report →</Link>
             </div>
           </div>
@@ -134,7 +136,7 @@ export default function Home() {
       <section>
         <div className="container">
           <div className="cta-section">
-            <h2>Don't guess your mileage. Prove it.</h2>
+            <h2>Don&apos;t guess your mileage. Prove it.</h2>
             <div className="hero-ctas">
               <Link href="/upload" className="btn btn-primary">Upload your driving data</Link>
               <Link href="/reports" className="btn btn-secondary">Preview a sample report</Link>
@@ -142,35 +144,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* FOOTER */}
-      <footer>
-        <div className="container">
-          <div className="footer-grid">
-            <div className="footer-col">
-              <h4>Product</h4>
-              <Link href="/upload">Upload Data</Link>
-              <Link href="/dashboard">Dashboard</Link>
-              <Link href="/reports">Reports</Link>
-            </div>
-            <div className="footer-col">
-              <h4>Drivers</h4>
-              <Link href="/upload">Uber Drivers</Link>
-              <Link href="/upload">Lyft Drivers</Link>
-              <Link href="/upload">DoorDash Drivers</Link>
-            </div>
-            <div className="footer-col">
-              <h4>Company</h4>
-              <Link href="/security">Security</Link>
-              <Link href="/security">Privacy</Link>
-            </div>
-            <div className="footer-col">
-              <p>© 2026 MileHiiv</p>
-              <p>Find the miles your apps don't track.</p>
-            </div>
-          </div>
-        </div>
-      </footer>
     </main>
   );
 }

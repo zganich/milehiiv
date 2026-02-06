@@ -4,7 +4,7 @@ export default function Sidebar({ active }: { active?: string }) {
   const links = [
     { href: '/dashboard', label: 'Dashboard', key: 'dashboard' },
     { href: '/upload', label: 'Upload', key: 'upload' },
-    { href: '/reports', label: 'Reports', key: 'reports' },
+    { href: '/dashboard/reports', label: 'Reports', key: 'reports' },
     { href: '/security', label: 'Security', key: 'security' },
   ];
 
