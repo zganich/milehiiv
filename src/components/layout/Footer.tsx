@@ -21,14 +21,14 @@ export function Footer() {
 
           {/* Links */}
           <div className="flex items-center gap-6">
+            <Link href="/tax-strategy" className="text-sm text-foreground-muted hover:text-foreground transition-colors">
+              Tax Strategy
+            </Link>
+            <Link href="/already-filed" className="text-sm text-foreground-muted hover:text-foreground transition-colors">
+              Already Filed?
+            </Link>
             <Link href="/pricing" className="text-sm text-foreground-muted hover:text-foreground transition-colors">
               Pricing
-            </Link>
-            <Link href="#" className="text-sm text-foreground-muted hover:text-foreground transition-colors">
-              Privacy
-            </Link>
-            <Link href="#" className="text-sm text-foreground-muted hover:text-foreground transition-colors">
-              Terms
             </Link>
           </div>
         </div>

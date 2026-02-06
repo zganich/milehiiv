@@ -17,6 +17,8 @@ export function Nav({ showAuth = true, showDashboardNav = false }: NavProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const publicLinks = [
+    { href: '/tax-strategy', label: 'Tax Strategy' },
+    { href: '/already-filed', label: 'Already Filed?' },
     { href: '/pricing', label: 'Pricing' }
   ];
 
