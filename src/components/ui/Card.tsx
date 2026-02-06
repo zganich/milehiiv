@@ -4,40 +4,37 @@ import { cn } from '@/lib/utils';
 interface CardProps {
   children: React.ReactNode;
   className?: string;
-  hover?: boolean;
-  padding?: 'sm' | 'md' | 'lg' | 'xl';
-  variant?: 'glass' | 'solid' | 'elevated';
+  interactive?: boolean;
+  variant?: 'default' | 'glass' | 'elevated';
+  padding?: 'none' | 'sm' | 'md' | 'lg';
 }
 
 export function Card({ 
   children, 
   className, 
-  hover = false, 
-  padding = 'md',
-  variant = 'glass'
+  interactive = false,
+  variant = 'default',
+  padding = 'md'
 }: CardProps) {
-  const paddingClasses = {
-    sm: 'p-4',
-    md: 'p-6',
-    lg: 'p-8',
-    xl: 'p-12'
-  };
-
   const variants = {
-    glass: 'card',
-    solid: 'card-solid',
-    elevated: 'bg-white shadow-xl border-0 rounded-2xl'
+    default: 'card',
+    glass: 'card-glass',
+    elevated: 'card-elevated'
   };
 
-  const hoverClasses = hover ? 'card-hover' : '';
+  const paddings = {
+    none: '!p-0',
+    sm: '!p-4',
+    md: '!p-6',
+    lg: '!p-8'
+  };
 
   return (
     <div
       className={cn(
         variants[variant],
-        hoverClasses,
-        paddingClasses[padding],
-        'fade-in',
+        interactive && 'card-interactive',
+        paddings[padding],
         className
       )}
     >
@@ -66,9 +63,22 @@ interface CardTitleProps {
 
 export function CardTitle({ children, className }: CardTitleProps) {
   return (
-    <h3 className={cn('text-lg font-semibold text-gray-900', className)}>
+    <h3 className={cn('text-title text-foreground', className)}>
       {children}
     </h3>
+  );
+}
+
+interface CardDescriptionProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
+export function CardDescription({ children, className }: CardDescriptionProps) {
+  return (
+    <p className={cn('text-small text-foreground-muted mt-1', className)}>
+      {children}
+    </p>
   );
 }
 
@@ -79,7 +89,20 @@ interface CardContentProps {
 
 export function CardContent({ children, className }: CardContentProps) {
   return (
-    <div className={cn('text-gray-600', className)}>
+    <div className={cn('text-foreground-muted', className)}>
+      {children}
+    </div>
+  );
+}
+
+interface CardFooterProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
+export function CardFooter({ children, className }: CardFooterProps) {
+  return (
+    <div className={cn('mt-4 pt-4 border-t border-border', className)}>
       {children}
     </div>
   );

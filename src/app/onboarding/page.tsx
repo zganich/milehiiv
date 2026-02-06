@@ -3,20 +3,22 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
-import { Card } from '@/components/ui/Card';
+import { Card, CardContent } from '@/components/ui/Card';
 import { Input } from '@/components/ui/Input';
+import { Check, ChevronRight, ChevronLeft, Car, Truck, Bike, Package } from 'lucide-react';
 
 export default function OnboardingPage() {
   const [step, setStep] = useState(1);
   const [profile, setProfile] = useState({
     name: '',
     email: '',
-    vehicleType: '',
     businessType: ''
   });
 
+  const totalSteps = 4;
+
   const handleNext = () => {
-    if (step < 4) setStep(step + 1);
+    if (step < totalSteps) setStep(step + 1);
   };
 
   const handleBack = () => {
@@ -24,179 +26,197 @@ export default function OnboardingPage() {
   };
 
   const handleComplete = () => {
-    // Save profile and redirect to dashboard
     window.location.href = '/dashboard';
   };
 
+  const businessTypes = [
+    { id: 'rideshare', label: 'Rideshare', desc: 'Uber, Lyft', icon: Car },
+    { id: 'delivery', label: 'Delivery', desc: 'DoorDash, UberEats', icon: Package },
+    { id: 'taxi', label: 'Taxi', desc: 'Traditional taxi', icon: Truck },
+    { id: 'other', label: 'Other', desc: 'Courier, etc.', icon: Bike }
+  ];
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
-      <div className="max-w-2xl w-full">
-        {/* Progress Bar */}
+    <div className="min-h-screen bg-background flex items-center justify-center p-4">
+      <div className="w-full max-w-lg">
+        {/* Progress */}
         <div className="mb-8">
-          <div className="flex justify-between items-center mb-2">
-            <span className="text-sm font-medium text-gray-600">Step {step} of 4</span>
-            <span className="text-sm text-gray-500">{Math.round((step / 4) * 100)}% Complete</span>
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-sm font-medium text-foreground-muted">
+              Step {step} of {totalSteps}
+            </span>
+            <span className="text-sm text-foreground-subtle">
+              {Math.round((step / totalSteps) * 100)}%
+            </span>
           </div>
-          <div className="w-full bg-gray-200 rounded-full h-2">
+          <div className="h-1 bg-card rounded-full overflow-hidden">
             <div 
-              className="bg-blue-600 h-2 rounded-full transition-all duration-300 ease-out"
-              style={{ width: `${(step / 4) * 100}%` }}
-            ></div>
+              className="h-full bg-accent rounded-full transition-all duration-500 ease-out"
+              style={{ width: `${(step / totalSteps) * 100}%` }}
+            />
           </div>
         </div>
 
-        <Card variant="glass" padding="xl">
+        <Card variant="elevated" padding="lg">
           {/* Step 1: Welcome */}
           {step === 1 && (
-            <div className="text-center space-y-6">
-              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto">
-                <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
+            <div className="text-center space-y-6 animate-fade-up">
+              <div className="w-14 h-14 rounded-2xl bg-accent-muted flex items-center justify-center mx-auto">
+                <Check className="w-7 h-7 text-accent" />
               </div>
               
               <div>
-                <h1 className="text-3xl font-bold text-gray-900 mb-4">Welcome to MileHiiv!</h1>
-                <p className="text-lg text-gray-600 max-w-md mx-auto">
+                <h1 className="text-headline text-foreground mb-3">
+                  Welcome to MileHiiv
+                </h1>
+                <p className="text-foreground-muted">
                   Let&apos;s set up your account so you can start tracking your mileage and saving money on taxes.
                 </p>
               </div>
 
               <Button size="lg" onClick={handleNext} className="w-full sm:w-auto">
-                Get Started
+                Get started
+                <ChevronRight className="w-4 h-4" />
               </Button>
             </div>
           )}
 
           {/* Step 2: Personal Info */}
           {step === 2 && (
-            <div className="space-y-6">
+            <div className="space-y-6 animate-fade-up">
               <div className="text-center">
-                <h2 className="text-2xl font-bold text-gray-900 mb-2">Tell us about yourself</h2>
-                <p className="text-gray-600">This helps us personalize your experience</p>
+                <h2 className="text-title text-foreground mb-2">Tell us about yourself</h2>
+                <p className="text-foreground-muted text-sm">This helps us personalize your experience</p>
               </div>
 
               <div className="space-y-4">
                 <Input
                   label="Full Name"
-                  placeholder="Enter your full name"
+                  placeholder="John Smith"
                   value={profile.name}
                   onChange={(e) => setProfile({...profile, name: e.target.value})}
                 />
-
                 <Input
                   label="Email Address"
                   type="email"
-                  placeholder="Enter your email"
+                  placeholder="john@example.com"
                   value={profile.email}
                   onChange={(e) => setProfile({...profile, email: e.target.value})}
                 />
               </div>
 
-              <div className="flex justify-between">
+              <div className="flex justify-between pt-4">
                 <Button variant="ghost" onClick={handleBack}>
+                  <ChevronLeft className="w-4 h-4" />
                   Back
                 </Button>
                 <Button onClick={handleNext} disabled={!profile.name || !profile.email}>
                   Continue
+                  <ChevronRight className="w-4 h-4" />
                 </Button>
               </div>
             </div>
           )}
 
-          {/* Step 3: Vehicle & Business */}
+          {/* Step 3: Business Type */}
           {step === 3 && (
-            <div className="space-y-6">
+            <div className="space-y-6 animate-fade-up">
               <div className="text-center">
-                <h2 className="text-2xl font-bold text-gray-900 mb-2">What do you drive?</h2>
-                <p className="text-gray-600">This helps us calculate accurate deductions</p>
+                <h2 className="text-title text-foreground mb-2">What type of driving do you do?</h2>
+                <p className="text-foreground-muted text-sm">Select the option that best describes your work</p>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                {['Rideshare (Uber/Lyft)', 'Delivery (DoorDash/UberEats)', 'Taxi', 'Other'].map((type) => (
-                  <button
-                    key={type}
-                    onClick={() => setProfile({...profile, businessType: type})}
-                    className={`p-4 rounded-xl border-2 text-left transition-all ${
-                      profile.businessType === type 
-                        ? 'border-blue-500 bg-blue-50' 
-                        : 'border-gray-200 hover:border-gray-300'
-                    }`}
-                  >
-                    <div className="font-medium text-gray-900">{type}</div>
-                  </button>
-                ))}
+              <div className="grid grid-cols-2 gap-3">
+                {businessTypes.map((type) => {
+                  const Icon = type.icon;
+                  const isSelected = profile.businessType === type.id;
+                  
+                  return (
+                    <button
+                      key={type.id}
+                      onClick={() => setProfile({...profile, businessType: type.id})}
+                      className={`p-4 rounded-xl border-2 text-left transition-all ${
+                        isSelected 
+                          ? 'border-accent bg-accent-muted' 
+                          : 'border-border hover:border-border-hover bg-card'
+                      }`}
+                    >
+                      <Icon className={`w-5 h-5 mb-2 ${isSelected ? 'text-accent' : 'text-foreground-muted'}`} />
+                      <div className={`font-medium ${isSelected ? 'text-foreground' : 'text-foreground'}`}>
+                        {type.label}
+                      </div>
+                      <div className="text-xs text-foreground-subtle">{type.desc}</div>
+                    </button>
+                  );
+                })}
               </div>
 
-              <div className="flex justify-between">
+              <div className="flex justify-between pt-4">
                 <Button variant="ghost" onClick={handleBack}>
+                  <ChevronLeft className="w-4 h-4" />
                   Back
                 </Button>
                 <Button onClick={handleNext} disabled={!profile.businessType}>
                   Continue
+                  <ChevronRight className="w-4 h-4" />
                 </Button>
               </div>
             </div>
           )}
 
-          {/* Step 4: Ready to Go */}
+          {/* Step 4: Complete */}
           {step === 4 && (
-            <div className="text-center space-y-6">
-              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto">
-                <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
+            <div className="text-center space-y-6 animate-fade-up">
+              <div className="w-14 h-14 rounded-2xl bg-success-muted flex items-center justify-center mx-auto">
+                <Check className="w-7 h-7 text-success" />
               </div>
               
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">You&apos;re all set!</h2>
-                <p className="text-gray-600 max-w-md mx-auto">
-                  Your account is ready. Let&apos;s upload your first PDF and start tracking your mileage.
+                <h2 className="text-title text-foreground mb-3">You&apos;re all set!</h2>
+                <p className="text-foreground-muted">
+                  Your account is ready. Let&apos;s upload your first file and start tracking.
                 </p>
               </div>
 
-              <div className="bg-blue-50 rounded-xl p-6 text-left">
-                <h3 className="font-semibold text-blue-900 mb-3">What&apos;s next?</h3>
-                <ul className="space-y-2 text-blue-800">
-                  <li className="flex items-center">
-                    <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                    </svg>
-                    Upload your mileage PDFs
-                  </li>
-                  <li className="flex items-center">
-                    <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                    </svg>
-                    Review detected gaps
-                  </li>
-                  <li className="flex items-center">
-                    <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                    </svg>
-                    Track your tax savings
-                  </li>
+              <Card className="bg-accent-muted/30 border-accent/20 text-left" padding="md">
+                <h3 className="font-medium text-foreground mb-3">What&apos;s next?</h3>
+                <ul className="space-y-2">
+                  {[
+                    'Upload your mileage files (CSV or screenshot)',
+                    'Review any detected mileage gaps',
+                    'Track your tax savings in real-time'
+                  ].map((item, i) => (
+                    <li key={i} className="flex items-center gap-2 text-sm text-foreground-muted">
+                      <div className="w-5 h-5 rounded-full bg-accent-muted flex items-center justify-center flex-shrink-0">
+                        <Check className="w-3 h-3 text-accent" />
+                      </div>
+                      {item}
+                    </li>
+                  ))}
                 </ul>
-              </div>
+              </Card>
 
-              <div className="flex justify-between">
+              <div className="flex justify-between pt-4">
                 <Button variant="ghost" onClick={handleBack}>
+                  <ChevronLeft className="w-4 h-4" />
                   Back
                 </Button>
-                <Button onClick={handleComplete} className="bg-green-600 hover:bg-green-700">
+                <Button onClick={handleComplete}>
                   Go to Dashboard
+                  <ChevronRight className="w-4 h-4" />
                 </Button>
               </div>
             </div>
           )}
         </Card>
 
-        {/* Skip Option */}
+        {/* Skip Link */}
         <div className="text-center mt-6">
-          <Link href="/dashboard">
-            <button className="text-gray-500 hover:text-gray-700 text-sm">
-              Skip setup for now
-            </button>
+          <Link 
+            href="/dashboard"
+            className="text-sm text-foreground-subtle hover:text-foreground-muted transition-colors"
+          >
+            Skip setup for now
           </Link>
         </div>
       </div>

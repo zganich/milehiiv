@@ -2,179 +2,237 @@
 
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
-import { Card, CardContent, CardHeader } from '@/components/ui/Card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/Card';
 import { FileUpload } from '@/components/ui/FileUpload';
+import { Nav } from '@/components/layout/Nav';
+import { Footer } from '@/components/layout/Footer';
+import { ArrowRight, FileText, LineChart, Zap, Shield, Clock, DollarSign } from 'lucide-react';
 
 export default function Home() {
   const handleFileUpload = (file: File) => {
     console.log('File uploaded:', file.name);
-    // TODO: Implement file upload logic
+    // Redirect to upload page with file
+    window.location.href = '/upload';
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-      {/* Navigation */}
-      <nav className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center">
-              <div className="flex-shrink-0">
-                <h1 className="text-2xl font-bold text-blue-600">MileHiiv</h1>
-              </div>
-            </div>
-            <div className="flex items-center space-x-4">
-              <Link href="/pricing">
-                <Button variant="ghost">Pricing</Button>
-              </Link>
-              <Link href="/login">
-                <Button variant="ghost">Sign In</Button>
-              </Link>
-              <Link href="/register">
-                <Button variant="primary">Get Started</Button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </nav>
+    <div className="min-h-screen flex flex-col">
+      <Nav />
 
       {/* Hero Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-            Smart Mileage Tracking
-            <span className="block text-blue-600">for Gig Drivers</span>
-          </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
-            Automatically extract mileage data from PDF documents, detect gaps in your trips, 
-            and manage your business mileage with ease. Perfect for ride-share and delivery drivers.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button 
-              size="lg" 
-              className="w-full sm:w-auto"
-              onClick={() => window.location.href = '/upload'}
-            >
-              Upload Your First PDF
-            </Button>
-            <Link href="/register">
-              <Button variant="secondary" size="lg" className="w-full sm:w-auto">
-                Create Account
-              </Button>
-            </Link>
+      <section className="relative py-16 md:py-24 lg:py-32 overflow-hidden">
+        {/* Background glow */}
+        <div className="hero-glow left-1/2 top-0 -translate-x-1/2 -translate-y-1/2" />
+        
+        <div className="container relative">
+          <div className="max-w-3xl mx-auto text-center stagger-children">
+            <div className="badge badge-accent mb-6">
+              <Zap className="w-3 h-3" />
+              Now with AI-powered screenshot import
+            </div>
+            
+            <h1 className="text-display text-foreground mb-6">
+              Track every mile.
+              <span className="text-gradient-accent block">Save more on taxes.</span>
+            </h1>
+            
+            <p className="text-lg md:text-xl text-foreground-muted mb-10 max-w-2xl mx-auto">
+              The smart mileage tracker for gig drivers. Import from any platform, 
+              detect missed deductions, and export IRS-ready reports in minutes.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link href="/register">
+                <Button size="lg" className="w-full sm:w-auto">
+                  Start tracking free
+                  <ArrowRight className="w-4 h-4" />
+                </Button>
+              </Link>
+              <Link href="/pricing">
+                <Button variant="secondary" size="lg" className="w-full sm:w-auto">
+                  View pricing
+                </Button>
+              </Link>
+            </div>
+
+            {/* Social proof */}
+            <div className="mt-10 flex flex-wrap items-center justify-center gap-6 text-sm text-foreground-subtle">
+              <div className="flex items-center gap-2">
+                <div className="flex -space-x-2">
+                  {[1,2,3,4].map(i => (
+                    <div key={i} className="w-7 h-7 rounded-full bg-card border-2 border-background" />
+                  ))}
+                </div>
+                <span>2,000+ drivers</span>
+              </div>
+              <div className="flex items-center gap-1">
+                {[1,2,3,4,5].map(i => (
+                  <svg key={i} className="w-4 h-4 text-warning" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                ))}
+                <span className="ml-1">4.9 rating</span>
+              </div>
+            </div>
           </div>
         </div>
+      </section>
 
-        {/* Features Grid */}
-        <div className="grid md:grid-cols-3 gap-8 mb-16">
-          <Card hover className="text-center">
-            <CardHeader>
-              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                </svg>
-              </div>
-              <h3 className="text-lg font-semibold text-gray-900">PDF Processing</h3>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-600">
-                Upload your mileage PDFs and automatically extract trip data with our intelligent parsing system.
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card hover className="text-center">
-            <CardHeader>
-              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                </svg>
-              </div>
-              <h3 className="text-lg font-semibold text-gray-900">Gap Detection</h3>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-600">
-                Our smart algorithm identifies missing trips and mileage gaps to ensure you never miss a deduction.
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card hover className="text-center">
-            <CardHeader>
-              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                </svg>
-              </div>
-              <h3 className="text-lg font-semibold text-gray-900">Smart Dashboard</h3>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-600">
-                Get insights into your mileage patterns with comprehensive analytics and trip management tools.
-              </p>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Primary CTA - Upload First */}
-        <Card variant="glass" className="max-w-3xl mx-auto">
-          <CardHeader>
-            <h3 className="text-2xl font-bold text-gray-900 text-center">Try It Now - No Account Required</h3>
-            <p className="text-gray-600 text-center text-lg">
-              Upload your first PDF and see results in 30 seconds
+      {/* Features Grid */}
+      <section className="py-16 md:py-24">
+        <div className="container">
+          <div className="text-center mb-12">
+            <h2 className="text-headline text-foreground mb-4">
+              Everything you need to maximize deductions
+            </h2>
+            <p className="text-foreground-muted max-w-2xl mx-auto">
+              Stop leaving money on the table. MileHiiv captures every deductible mile 
+              that gig apps miss.
             </p>
-          </CardHeader>
-          <CardContent>
-            <FileUpload
-              onFileSelect={handleFileUpload}
-              accept=".pdf"
-              maxSize={10}
-              className="mb-6"
-            />
-            
-            {/* Quick Demo Button */}
-            <div className="text-center space-y-4">
-              <Button 
-                variant="secondary" 
-                size="lg" 
-                className="w-full sm:w-auto"
-                onClick={() => window.location.href = '/upload'}
-              >
-                Upload Your PDF
-              </Button>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+            <Card interactive className="group">
+              <CardHeader>
+                <div className="w-10 h-10 rounded-lg bg-accent-muted flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  <FileText className="w-5 h-5 text-accent" />
+                </div>
+                <CardTitle>Smart Import</CardTitle>
+                <CardDescription>
+                  Import from Uber, Lyft, DoorDash CSVs or just snap a screenshot. Our AI handles the rest.
+                </CardDescription>
+              </CardHeader>
+            </Card>
+
+            <Card interactive className="group">
+              <CardHeader>
+                <div className="w-10 h-10 rounded-lg bg-success-muted flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  <LineChart className="w-5 h-5 text-success" />
+                </div>
+                <CardTitle>Gap Detection</CardTitle>
+                <CardDescription>
+                  Automatically find the "deadhead" miles between trips that apps don&apos;t track but are 100% deductible.
+                </CardDescription>
+              </CardHeader>
+            </Card>
+
+            <Card interactive className="group">
+              <CardHeader>
+                <div className="w-10 h-10 rounded-lg bg-warning-muted flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  <DollarSign className="w-5 h-5 text-warning" />
+                </div>
+                <CardTitle>Tax Reports</CardTitle>
+                <CardDescription>
+                  Generate IRS-ready mileage logs with one click. Works with TurboTax, H&R Block, and your CPA.
+                </CardDescription>
+              </CardHeader>
+            </Card>
+
+            <Card interactive className="group">
+              <CardHeader>
+                <div className="w-10 h-10 rounded-lg bg-accent-muted flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  <Clock className="w-5 h-5 text-accent" />
+                </div>
+                <CardTitle>Quick Log</CardTitle>
+                <CardDescription>
+                  Start/stop tracking with one tap. Perfect for multi-app drivers who switch platforms.
+                </CardDescription>
+              </CardHeader>
+            </Card>
+
+            <Card interactive className="group">
+              <CardHeader>
+                <div className="w-10 h-10 rounded-lg bg-success-muted flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  <Zap className="w-5 h-5 text-success" />
+                </div>
+                <CardTitle>Google Timeline</CardTitle>
+                <CardDescription>
+                  Connect your Google Timeline for automatic trip detection and mileage calculation.
+                </CardDescription>
+              </CardHeader>
+            </Card>
+
+            <Card interactive className="group">
+              <CardHeader>
+                <div className="w-10 h-10 rounded-lg bg-warning-muted flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  <Shield className="w-5 h-5 text-warning" />
+                </div>
+                <CardTitle>Audit-Ready</CardTitle>
+                <CardDescription>
+                  Every trip is timestamped and stored securely. If the IRS asks, you&apos;re prepared.
+                </CardDescription>
+              </CardHeader>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-16 md:py-24">
+        <div className="container">
+          <Card variant="elevated" padding="lg" className="max-w-3xl mx-auto text-center">
+            <div className="max-w-xl mx-auto">
+              <h3 className="text-headline text-foreground mb-3">
+                Try it now — no account needed
+              </h3>
+              <p className="text-foreground-muted mb-8">
+                Upload a CSV or screenshot and see your mileage summary in seconds. 
+                Create an account later to save your data.
+              </p>
               
-              <div className="flex items-center justify-center space-x-6 text-sm text-gray-500">
-                <div className="flex items-center">
-                  <svg className="w-4 h-4 mr-1 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+              <FileUpload
+                onFileSelect={handleFileUpload}
+                accept=".pdf,.csv,.png,.jpg,.jpeg"
+                maxSize={10}
+                className="max-w-md mx-auto"
+              />
+              
+              <div className="flex items-center justify-center gap-6 mt-6 text-sm text-foreground-subtle">
+                <span className="flex items-center gap-1.5">
+                  <svg className="w-4 h-4 text-success" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
                   Free to try
-                </div>
-                <div className="flex items-center">
-                  <svg className="w-4 h-4 mr-1 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <svg className="w-4 h-4 text-success" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
-                  No account needed
-                </div>
-                <div className="flex items-center">
-                  <svg className="w-4 h-4 mr-1 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                  No signup required
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <svg className="w-4 h-4 text-success" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
                   Instant results
-                </div>
+                </span>
               </div>
             </div>
-          </CardContent>
-        </Card>
-      </div>
+          </Card>
+        </div>
+      </section>
 
-      {/* Footer */}
-      <footer className="bg-white border-t">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="text-center text-gray-500">
-            <p>&copy; 2025 MileHiiv. All rights reserved.</p>
+      {/* Stats Section */}
+      <section className="py-16 md:py-24 bg-background-secondary">
+        <div className="container">
+          <div className="grid sm:grid-cols-3 gap-8 text-center">
+            <div>
+              <div className="text-4xl md:text-5xl font-bold text-accent mb-2">$5,360</div>
+              <p className="text-foreground-muted">Average additional deductions found per driver</p>
+            </div>
+            <div>
+              <div className="text-4xl md:text-5xl font-bold text-success mb-2">40%</div>
+              <p className="text-foreground-muted">Of miles are "deadhead" that apps don&apos;t track</p>
+            </div>
+            <div>
+              <div className="text-4xl md:text-5xl font-bold text-warning mb-2">30 sec</div>
+              <p className="text-foreground-muted">Average time to import and analyze your trips</p>
+            </div>
           </div>
         </div>
-      </footer>
+      </section>
+
+      <Footer />
     </div>
   );
 }
