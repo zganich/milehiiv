@@ -24,13 +24,14 @@ function CheckoutButton({ tier, label }: { tier: string; label: string }) {
   );
 }
 
-export default function Pricing({
+export default async function Pricing({
   searchParams,
 }: {
-  searchParams?: { checkout?: string; tier?: string };
+  searchParams?: Promise<{ checkout?: string; tier?: string }>;
 }) {
-  const checkoutState = searchParams?.checkout;
-  const selectedTier = searchParams?.tier;
+  const resolvedSearchParams = await searchParams;
+  const checkoutState = resolvedSearchParams?.checkout;
+  const selectedTier = resolvedSearchParams?.tier;
 
   return (
     <main>
