@@ -1,6 +1,37 @@
-import Link from 'next/link';
+const checkoutPlans = [
+  {
+    key: 'pay-per-report',
+    name: 'Pay-per-report',
+    description: 'Generate reports as you need them. Perfect for drivers who want flexibility and control.',
+    cta: 'Start checkout',
+  },
+  {
+    key: 'monthly',
+    name: 'Monthly',
+    description: 'Power users who generate reports regularly. Unlimited reports. One predictable price.',
+    cta: 'Start checkout',
+  },
+] as const;
 
-export default function Pricing() {
+function CheckoutButton({ tier, label }: { tier: string; label: string }) {
+  return (
+    <form className="checkout-form" action="/api/checkout" method="post">
+      <input type="hidden" name="tier" value={tier} />
+      <button type="submit" className="btn btn-primary mt-sm">
+        {label} →
+      </button>
+    </form>
+  );
+}
+
+export default function Pricing({
+  searchParams,
+}: {
+  searchParams?: { checkout?: string; tier?: string };
+}) {
+  const checkoutState = searchParams?.checkout;
+  const selectedTier = searchParams?.tier;
+
   return (
     <main>
       <section className="hero">
@@ -9,25 +40,32 @@ export default function Pricing() {
           <p className="lead">
             Pay for what you use. No hidden fees. No annual contracts.
           </p>
+          {checkoutState === 'success' ? (
+            <div className="checkout-banner checkout-banner-success" role="status">
+              Checkout completed{selectedTier ? ` for ${selectedTier}` : ''}. Your test payment came through.
+            </div>
+          ) : null}
+          {checkoutState === 'cancelled' ? (
+            <div className="checkout-banner" role="status">
+              Checkout was cancelled. You can try again below whenever you are ready.
+            </div>
+          ) : null}
         </div>
       </section>
 
       <section>
         <div className="container">
-          <div className="grid grid-2" style={{ maxWidth: '800px', margin: '0 auto' }}>
-            <div className="card">
-              <h3>Pay-per-report</h3>
-              <p>Generate reports as you need them. Perfect for drivers who want flexibility and control.</p>
-              <Link href="/upload" className="btn btn-secondary mt-sm">Get started →</Link>
-            </div>
-            <div className="card">
-              <h3>Monthly</h3>
-              <p>Power users who generate reports regularly. Unlimited reports. One predictable price.</p>
-              <Link href="/upload" className="btn btn-secondary mt-sm">Get started →</Link>
-            </div>
+          <div className="grid grid-3" style={{ maxWidth: '1080px', margin: '0 auto' }}>
+            {checkoutPlans.map((plan) => (
+              <div className="card" key={plan.key}>
+                <h3>{plan.name}</h3>
+                <p>{plan.description}</p>
+                <CheckoutButton tier={plan.key} label={plan.cta} />
+              </div>
+            ))}
           </div>
           <div className="text-center mt-md">
-            <Link href="/upload" className="btn btn-primary">Get started →</Link>
+            <CheckoutButton tier="pay-per-report" label="Start checkout" />
           </div>
         </div>
       </section>
