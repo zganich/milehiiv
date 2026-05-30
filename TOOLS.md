@@ -38,3 +38,9 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 ---
 
 Add whatever helps you do your job. This is your cheat sheet.
+
+## Stripe
+
+- Stripe CLI is authenticated for `careerswarm`.
+- Local webhook forwarding works to `http://localhost:3001/api/stripe/webhook`.
+- For checkout verification, run the app with test Stripe env vars and keep the webhook listener running in parallel.

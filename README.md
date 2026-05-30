@@ -144,6 +144,11 @@ npm run lint         # Run ESLint
    - `DATABASE_URL` - Your Supabase connection string
    - `JWT_SECRET` - Your JWT secret key
    - `JWT_EXPIRES_IN` - Token expiration (default: 7d)
+   - `NEXT_PUBLIC_APP_URL` - The public app URL used for Stripe redirects
+   - `STRIPE_SECRET_KEY` - Your Stripe secret key
+   - `STRIPE_WEBHOOK_SECRET` - Your Stripe webhook signing secret
+   - `STRIPE_PAY_PER_REPORT_PRICE_ID` - Stripe price ID for one-time checkout
+   - `STRIPE_MONTHLY_PRICE_ID` - Stripe price ID for the monthly subscription
    - `NEXT_PUBLIC_SUPABASE_URL` - Your Supabase project URL
    - `NEXT_PUBLIC_SUPABASE_ANON_KEY` - Your Supabase anon key
 

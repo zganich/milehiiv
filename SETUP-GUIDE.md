@@ -48,6 +48,12 @@ MAX_FILE_SIZE=10485760
 NEXT_PUBLIC_APP_URL=http://localhost:3000
 NEXT_PUBLIC_API_URL=http://localhost:3000
 
+# Stripe
+STRIPE_SECRET_KEY=sk_test_your_stripe_secret_key
+STRIPE_WEBHOOK_SECRET=whsec_your_stripe_webhook_secret
+STRIPE_PAY_PER_REPORT_PRICE_ID=price_your_pay_per_report_price_id
+STRIPE_MONTHLY_PRICE_ID=price_your_monthly_price_id
+
 # Supabase Configuration
 NEXT_PUBLIC_SUPABASE_URL=https://[YOUR_PROJECT].supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key-here
@@ -55,6 +61,13 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key-here
 # Development Environment
 NODE_ENV=development
 ```
+
+#### Stripe Setup
+1. Create a one-time price for pay-per-report and a recurring price for the monthly plan in Stripe.
+2. Copy the two Stripe price IDs into `STRIPE_PAY_PER_REPORT_PRICE_ID` and `STRIPE_MONTHLY_PRICE_ID`.
+3. Set `STRIPE_SECRET_KEY` and `STRIPE_WEBHOOK_SECRET` in the same environment.
+4. Point the Stripe webhook endpoint at `/api/stripe/webhook` on this app.
+5. For local testing, use the Stripe CLI to forward webhooks to `http://localhost:3000/api/stripe/webhook`.
 
 ### 4. Start Development Server
 ```bash
@@ -148,6 +161,11 @@ The application uses the following tables:
    - `DATABASE_URL` - Your Supabase connection string
    - `JWT_SECRET` - Your JWT secret key
    - `JWT_EXPIRES_IN` - Token expiration (default: 7d)
+   - `NEXT_PUBLIC_APP_URL` - The public app URL used for Stripe redirects
+   - `STRIPE_SECRET_KEY` - Your Stripe secret key
+   - `STRIPE_WEBHOOK_SECRET` - Your Stripe webhook signing secret
+   - `STRIPE_PAY_PER_REPORT_PRICE_ID` - Stripe price ID for one-time checkout
+   - `STRIPE_MONTHLY_PRICE_ID` - Stripe price ID for the monthly subscription
    - `NEXT_PUBLIC_SUPABASE_URL` - Your Supabase project URL
    - `NEXT_PUBLIC_SUPABASE_ANON_KEY` - Your Supabase anon key
 

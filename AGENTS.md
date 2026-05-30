@@ -45,6 +45,8 @@ Capture what matters. Decisions, context, things to remember. Skip the secrets u
 - When you make a mistake → document it so future-you doesn't repeat it
 - **Text > Brain** 📝
 
+When a feature is easier to rebuild cleanly than to salvage from legacy code, choose the efficient fresh path. Keep the implementation minimal, production-safe, and token-aware.
+
 ## Safety
 
 - Don't exfiltrate private data. Ever.

@@ -1,19 +1,6 @@
-const checkoutPlans = [
-  {
-    key: 'pay-per-report',
-    name: 'Pay-per-report',
-    description: 'Generate reports as you need them. Perfect for drivers who want flexibility and control.',
-    cta: 'Start checkout',
-  },
-  {
-    key: 'monthly',
-    name: 'Monthly',
-    description: 'Power users who generate reports regularly. Unlimited reports. One predictable price.',
-    cta: 'Start checkout',
-  },
-] as const;
+import { checkoutPlans, getCheckoutPlan, type CheckoutTier } from '@/lib/stripe';
 
-function CheckoutButton({ tier, label }: { tier: string; label: string }) {
+function CheckoutButton({ tier, label }: { tier: CheckoutTier; label: string }) {
   return (
     <form className="checkout-form" action="/api/checkout" method="post">
       <input type="hidden" name="tier" value={tier} />
@@ -32,6 +19,7 @@ export default async function Pricing({
   const resolvedSearchParams = await searchParams;
   const checkoutState = resolvedSearchParams?.checkout;
   const selectedTier = resolvedSearchParams?.tier;
+  const selectedPlan = selectedTier ? getCheckoutPlan(selectedTier) : null;
 
   return (
     <main>
@@ -43,12 +31,17 @@ export default async function Pricing({
           </p>
           {checkoutState === 'success' ? (
             <div className="checkout-banner checkout-banner-success" role="status">
-              Checkout completed{selectedTier ? ` for ${selectedTier}` : ''}. Your test payment came through.
+              Checkout completed{selectedPlan ? ` for ${selectedPlan.name}` : ''}. Your payment came through.
             </div>
           ) : null}
           {checkoutState === 'cancelled' ? (
             <div className="checkout-banner" role="status">
               Checkout was cancelled. You can try again below whenever you are ready.
+            </div>
+          ) : null}
+          {checkoutState === 'error' ? (
+            <div className="checkout-banner" role="status">
+              Checkout is temporarily unavailable. Please try again once Stripe is configured.
             </div>
           ) : null}
         </div>
@@ -57,7 +50,7 @@ export default async function Pricing({
       <section>
         <div className="container">
           <div className="grid grid-3" style={{ maxWidth: '1080px', margin: '0 auto' }}>
-            {checkoutPlans.map((plan) => (
+            {Object.values(checkoutPlans).map((plan) => (
               <div className="card" key={plan.key}>
                 <h3>{plan.name}</h3>
                 <p>{plan.description}</p>
