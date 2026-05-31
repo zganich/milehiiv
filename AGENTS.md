@@ -2,6 +2,16 @@
 
 This folder is home. Treat it that way.
 
+## Shared Personal OS Bootstrap
+
+- Read `~/GLOBAL_LANDSCAPE.md`, `~/SOUL.md`, `~/USER.md`, `~/FOUNDATION.md`, `~/SYSTEM.md`, `~/TOOLS.md`, and `~/MEMORY.md` first.
+- Read `~/.personal_os/REGISTRY.toml`, `~/.personal_os/STATE.md`, and `~/.personal_os/MEMORY.md` before touching the project.
+- Treat the selected project folder as the working root. Use the app project dropdown if available, or name the project path in the first message.
+- Use `~/LLM-PORTABLE-CONTEXT` for portable skills when the task matches a known skill.
+- Treat Notion as the working mirror, Obsidian as the second brain, and tool histories as non-canonical.
+- Keep durable state in project files first, then mirror outward if needed.
+- If another LLM touched the project before, the filesystem root still wins.
+
 ## First Run
 
 If `BOOTSTRAP.md` exists, that's your birth certificate. Follow it, figure out who you are, then delete it. You won't need it again.

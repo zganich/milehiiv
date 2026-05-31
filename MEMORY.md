@@ -12,3 +12,5 @@ James always wants clear next steps and best practices. Default to SOP-style gui
 When transferring work to Claude, include everything needed for continuity: what was changed, what was verified, what is blocked, what the next step is, and any relevant setup or coordination details. Do not trim handoffs down to a minimal summary if it risks losing context.
 
 If a legacy feature path is getting expensive to untangle, prefer a clean rebuild when it is the faster and more token-efficient option. Start fresh rather than forcing old structure to fit if that reduces risk and churn.
+- Shared Personal OS bootstrap: global files first, then `~/.personal_os/REGISTRY.toml`, `~/.personal_os/STATE.md`, and `~/.personal_os/MEMORY.md`, then this project's local files.
+- The project root is authoritative even if another LLM worked here first.
