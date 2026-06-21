@@ -30,7 +30,7 @@ Vercel will provide you with DNS records to configure:
 ```
 Type: A
 Name: @
-Value: 76.76.19.19
+Value: 76.76.21.21
 ```
 
 **For WWW Subdomain (www.milehiiv.com):**
@@ -57,7 +57,7 @@ Go to your domain registrar (where you purchased milehiiv.com) and access DNS ma
 ```
 Type: A
 Name: @ (or leave blank)
-Value: 76.76.19.19
+Value: 76.76.21.21
 TTL: 300 (or default)
 ```
 
@@ -276,7 +276,7 @@ Error: Too many redirects
 ## ✅ Domain Setup Checklist
 
 - [ ] Domain added to Vercel project
-- [ ] DNS A record configured (76.76.19.19)
+- [ ] DNS A record configured (76.76.21.21)
 - [ ] DNS CNAME record configured for www
 - [ ] SSL certificate generated
 - [ ] Environment variables updated

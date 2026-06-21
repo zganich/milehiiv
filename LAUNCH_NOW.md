@@ -9,7 +9,7 @@
 ## 1️⃣ DNS Configuration (CRITICAL - Do First!)
 
 **Current:** `milehiiv.com` → `192.64.119.233` (registrar parking page)  
-**Needed:** `milehiiv.com` → `76.76.19.19` (Vercel)
+**Needed:** `milehiiv.com` → `76.76.21.21` (Vercel)
 
 ### Steps:
 1. Log into your domain registrar (likely where you bought milehiiv.com)
@@ -18,7 +18,7 @@
 4. **Add new** A record:
    - Host: `@` (or leave blank)
    - Type: `A`
-   - Value: `76.76.19.19`
+   - Value: `76.76.21.21`
    - TTL: 300 (or lowest available)
 5. Add CNAME for www:
    - Host: `www`
@@ -28,7 +28,7 @@
 
 **Propagation:** 5-30 minutes typically, up to 48 hours worst case.
 
-**Verify:** `dig milehiiv.com A +short` should return `76.76.19.19`
+**Verify:** `dig milehiiv.com A +short` should return `76.76.21.21`
 
 ---
 
@@ -125,7 +125,7 @@ When ready to accept payments:
 ```bash
 # Check DNS
 dig milehiiv.com A +short
-# Expected: 76.76.19.19
+# Expected: 76.76.21.21
 
 # Check if site is up
 curl -I https://milehiiv.com 2>/dev/null | head -1

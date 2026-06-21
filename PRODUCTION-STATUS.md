@@ -32,7 +32,7 @@
 ### **Domain** 🟡 **READY FOR DNS**
 - **Domain**: milehiiv.com
 - **Status**: ✅ **CONFIGURED IN VERCEL**
-- **DNS**: Ready for A record configuration (76.76.19.19)
+- **DNS**: Ready for A record configuration (76.76.21.21)
 - **SSL**: Automatic SSL certificate ready
 - **Redirects**: Configured in vercel.json
 
@@ -131,7 +131,7 @@
 - 🟡 **DNS**: Ready for final configuration
 
 ### **Next Steps for Full Production**
-1. **DNS Configuration**: Point milehiiv.com to Vercel (76.76.19.19)
+1. **DNS Configuration**: Point milehiiv.com to Vercel (76.76.21.21)
 2. **SSL Verification**: Automatic SSL certificate generation
 3. **Final Testing**: End-to-end production testing
 4. **Go Live**: Application fully accessible at milehiiv.com
