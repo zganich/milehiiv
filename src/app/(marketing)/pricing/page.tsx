@@ -1,6 +1,18 @@
 import { checkoutPlans, getCheckoutPlan, type CheckoutTier } from '@/lib/stripe';
 
+// Checkout is gated OFF by default. MileHiIV's product flows (account, upload,
+// dashboard, report) are not yet wired end-to-end, so we do not take payment.
+// Re-enable by setting CHECKOUT_ENABLED=true once the core loop works.
+const CHECKOUT_ENABLED = process.env.CHECKOUT_ENABLED === 'true';
+
 function CheckoutButton({ tier, label }: { tier: CheckoutTier; label: string }) {
+  if (!CHECKOUT_ENABLED) {
+    return (
+      <button type="button" className="btn btn-primary mt-sm" disabled aria-disabled="true">
+        Coming soon
+      </button>
+    );
+  }
   return (
     <form className="checkout-form" action="/api/checkout" method="post">
       <input type="hidden" name="tier" value={tier} />
@@ -42,6 +54,12 @@ export default async function Pricing({
           {checkoutState === 'error' ? (
             <div className="checkout-banner" role="status">
               Checkout is temporarily unavailable. Please try again once Stripe is configured.
+            </div>
+          ) : null}
+          {checkoutState === 'paused' || !CHECKOUT_ENABLED ? (
+            <div className="checkout-banner" role="status">
+              MileHiIV is in active development and not yet taking payments — we&apos;re finishing the
+              upload, analysis, and report experience first. Check back soon.
             </div>
           ) : null}
         </div>

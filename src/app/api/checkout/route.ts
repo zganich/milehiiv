@@ -10,6 +10,13 @@ export const runtime = 'nodejs';
 
 export async function POST(request: Request) {
   try {
+    // Checkout is paused until the product can actually deliver (account →
+    // upload → analysis → report). Default-off; set CHECKOUT_ENABLED=true to
+    // re-enable. Guards against a direct POST bypassing the disabled UI button.
+    if (process.env.CHECKOUT_ENABLED !== 'true') {
+      return NextResponse.redirect(new URL('/pricing?checkout=paused', request.url), 303);
+    }
+
     const formData = await request.formData();
     const tier = String(formData.get('tier') ?? 'pay-per-report');
     const plan = getCheckoutPlan(tier);
