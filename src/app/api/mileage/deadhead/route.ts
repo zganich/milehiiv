@@ -7,6 +7,16 @@ import {
 } from '@/lib/api-utils'
 import { getUserFromRequest } from '@/lib/api-utils'
 import { supabase } from '@/lib/supabase'
+import { getIrsRate } from '@/lib/irs-rates'
+
+/**
+ * Conservative industry estimate: for CSV-only drivers (gig data but no
+ * total-driving source), unpaid "deadhead" miles are commonly ~50% of paid
+ * miles. We surface this as a clearly-labeled POTENTIAL estimate — never as a
+ * substantiated deduction — to motivate importing Google Timeline, which turns
+ * the estimate into a defensible, audit-ready number.
+ */
+const DEADHEAD_ESTIMATE_FACTOR = 0.5
 
 /**
  * Deadhead Miles Calculator
@@ -18,8 +28,9 @@ import { supabase } from '@/lib/supabase'
  * - But drivers can deduct ALL business driving
  * - Deadhead (unpaid miles) can be 30-50% of total driving
  * 
- * IRS rate 2024: $0.67/mile
- * Example: 8,000 deadhead miles = $5,360 extra deductions
+ * Rate applied is the IRS business mileage rate for the relevant TAX YEAR
+ * (see lib/irs-rates.ts) — not a hardcoded constant.
+ * Example: 8,000 deadhead miles @ $0.70 (2025) = $5,600 extra deductions
  */
 
 interface DailyMileage {
@@ -37,11 +48,13 @@ interface DeadheadSummary {
   totalGigMiles: number;
   totalDeadheadMiles: number;
   deadheadPercentage: number;
-  estimatedDeduction: number; // At IRS rate
+  estimatedDeduction: number; // substantiated deadhead × IRS rate
+  // Potential additional deadhead estimated for CSV-only days (no Timeline).
+  // Clearly NOT substantiated — requires importing total-driving data to claim.
+  estimatedPotentialDeadheadMiles: number;
+  estimatedPotentialDeduction: number;
   dailyBreakdown: DailyMileage[];
 }
-
-const IRS_RATE_2024 = 0.67; // dollars per mile
 
 export async function GET(request: NextRequest) {
   try {
@@ -148,6 +161,7 @@ export async function GET(request: NextRequest) {
     let totalMiles = 0
     let totalGigMiles = 0
     let totalDeadheadMiles = 0
+    let totalEstimatedPotentialDeadhead = 0
 
     for (const [date, data] of byDate) {
       // If we have both timeline and gig data, calculate deadhead
@@ -166,9 +180,11 @@ export async function GET(request: NextRequest) {
         deadhead = 0
         effectiveTotal = data.totalMiles
       } else if (data.gigMiles > 0 && data.totalMiles === 0) {
-        // Only gig data - we know gig miles but not total
+        // Only gig data (CSV-only day) - we can't SUBSTANTIATE deadhead without
+        // a total-driving source, but we can show an honest POTENTIAL estimate.
         effectiveTotal = data.gigMiles
-        deadhead = 0 // Can't calculate without total
+        deadhead = 0 // substantiated deadhead stays 0
+        totalEstimatedPotentialDeadhead += data.gigMiles * DEADHEAD_ESTIMATE_FACTOR
       }
 
       const dayTotal = Math.max(effectiveTotal, data.gigMiles)
@@ -190,9 +206,15 @@ export async function GET(request: NextRequest) {
     // Sort by date
     dailyBreakdown.sort((a, b) => a.date.localeCompare(b.date))
 
-    const deadheadPercentage = totalMiles > 0 
-      ? Math.round((totalDeadheadMiles / totalMiles) * 1000) / 10 
+    const deadheadPercentage = totalMiles > 0
+      ? Math.round((totalDeadheadMiles / totalMiles) * 1000) / 10
       : 0
+
+    // Tax year for the rate: explicit ?year, else the year of the range start.
+    const taxYear = year ? parseInt(year, 10) : new Date(dateFilter.start).getFullYear()
+    const irs = getIrsRate(taxYear)
+
+    const estimatedPotentialDeadheadMiles = Math.round(totalEstimatedPotentialDeadhead * 10) / 10
 
     const summary: DeadheadSummary = {
       totalDays: dailyBreakdown.length,
@@ -200,14 +222,19 @@ export async function GET(request: NextRequest) {
       totalGigMiles: Math.round(totalGigMiles * 10) / 10,
       totalDeadheadMiles: Math.round(totalDeadheadMiles * 10) / 10,
       deadheadPercentage,
-      estimatedDeduction: Math.round(totalDeadheadMiles * IRS_RATE_2024 * 100) / 100,
+      estimatedDeduction: Math.round(totalDeadheadMiles * irs.rate * 100) / 100,
+      estimatedPotentialDeadheadMiles,
+      estimatedPotentialDeduction: Math.round(estimatedPotentialDeadheadMiles * irs.rate * 100) / 100,
       dailyBreakdown
     }
 
     return successResponse({
       summary,
       dateRange: dateFilter,
-      irsRate: IRS_RATE_2024,
+      taxYear,
+      irsRate: irs.rate,
+      irsRateVerified: irs.verified,
+      irsRateNote: irs.note,
       tips: getDeadheadTips(summary)
     })
 
@@ -250,7 +277,13 @@ function getGigPlatform(location?: string | null, notes?: string | null): string
 function getDeadheadTips(summary: DeadheadSummary): string[] {
   const tips: string[] = []
 
-  if (summary.totalDeadheadMiles === 0 && summary.totalGigMiles > 0) {
+  if (summary.totalDeadheadMiles === 0 && summary.estimatedPotentialDeadheadMiles > 0) {
+    tips.push(
+      `You may be missing ~${Math.round(summary.estimatedPotentialDeadheadMiles)} deadhead miles ` +
+      `(est. ~$${Math.round(summary.estimatedPotentialDeduction)} in deductions). This is an estimate — ` +
+      `import your Google Timeline to substantiate and claim it with confidence.`
+    )
+  } else if (summary.totalDeadheadMiles === 0 && summary.totalGigMiles > 0) {
     tips.push('Import your Google Timeline to calculate deadhead miles - this could add 30-50% more deductions!')
   }
 
